@@ -21,8 +21,11 @@ interface TableData {
 /**
  * Represents the configuration of environment variables.
  */
-export type EnvironmentConfig = Record<string, EnvironmentVariableDescription>;
+type EnvironmentConfig = Record<string, EnvironmentVariableDescription>;
 type Environment<T extends EnvironmentConfig> = Record<keyof T, string>;
+
+const DEFAULT_VALUE = "";
+const VALUE_MISSING_MESSAGE = '"" (Missing from environment)';
 
 /**
  * Validates the environment variables based on the provided configuration.
@@ -52,8 +55,8 @@ function logEnvironmentVariables<T extends EnvironmentConfig>(config: Environmen
 		const value = environment[key];
 		const description = config[key]!.description;
 		const isSecret = config[key]!.isSecret;
-		const displayValue = !value ? 'Missing from environment' 
-			: isSecret ? `***${value.slice(-4)}` 
+		const displayValue = !value ? VALUE_MISSING_MESSAGE
+			: isSecret ? `****${value.slice(-4)}` 
 			: value;
 
 		data.push({ Variable: key, Value: displayValue, Description: description });
@@ -68,13 +71,13 @@ function logEnvironmentVariables<T extends EnvironmentConfig>(config: Environmen
  * @param input - The configuration of environment variables.
  * @returns An object containing the processed environment variables.
  */
-export function read<T extends EnvironmentConfig>(input: T): Record<keyof T, string> {
+export default function read<T extends EnvironmentConfig>(input: T): Record<keyof T, string> {
 
 	validateEnvironmentVariables(input);
 
     const result: Partial<Environment<T>> = {};
     for (const key in input) {
-        result[key] = process.env[key] ?? '';
+        result[key] = process.env[key] ?? DEFAULT_VALUE;
     }
 
 	logEnvironmentVariables(input, result as Environment<T>);

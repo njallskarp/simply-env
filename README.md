@@ -5,13 +5,14 @@ This is a zero-dependency package that helps parse and validate environments bas
 Example configuration:
 
 ```ts
-import { read } from "easy-env";
-import dotenv from "dotenv";
+import simply from "simply-env";
+
 
 // if reading from an .env file
+import dotenv from "dotenv";
 dotenv.config();
 
-const env = read({
+const env = simply({
 	API_PORT: {
 		description: "A number for the port the API will listen on",
 		isRequired: true,

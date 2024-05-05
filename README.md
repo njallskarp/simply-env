@@ -38,7 +38,7 @@ env.LOG_LEVEL; // Value is empty string if non-required values are missin
 
 The `read` function takes in the config and returns a dictionary object which maps the enviroinment variables to their values. If a required environment variable is missing, then your node process will terminate with an error code.
 
-The `read` function logs out all your environment variables in a table along with their values. If an environment variable is set as `isSecret` it masks the valgiue.
+The `read` function logs out all your environment variables in a table along with their values. If an environment variable is set as `isSecret` it masks the value.
 
 ```shell
 ┌─────────┬───────────────────────┬────────────────────────────┬───────────────────────────────────────────────────────────┐

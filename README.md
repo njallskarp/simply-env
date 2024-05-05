@@ -1,3 +1,5 @@
+[![CI](https://github.com/njallskarp/simply-env/actions/workflows/main.yml/badge.svg)](https://github.com/njallskarp/simply-env/actions/workflows/main.yml)
+
 # Simply-Env
 
 This is a zero-dependency package that helps parse and validate environments based on a configuration. Simply-env is unaware of how you get the environment variables. I.e. if you want to use an `.env` file, then you should use something like `dotenv` to parse the .env file. Simply-env assumes that it can read environment variables from `process.env`.
@@ -5,13 +7,14 @@ This is a zero-dependency package that helps parse and validate environments bas
 Example configuration:
 
 ```ts
-import { read } from "easy-env";
-import dotenv from "dotenv";
+import simply from "simply-env";
+
 
 // if reading from an .env file
+import dotenv from "dotenv";
 dotenv.config();
 
-const env = read({
+const env = simply({
 	API_PORT: {
 		description: "A number for the port the API will listen on",
 		isRequired: true,

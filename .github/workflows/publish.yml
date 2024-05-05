@@ -2,8 +2,6 @@ name: Publish
 on:
   workflow_dispatch:
 
-concurrency: ${{ github.workflow }}-${{ github.ref }}
-
 permissions:
   contents: write
   pull-requests: write

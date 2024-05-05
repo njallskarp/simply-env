@@ -1,0 +1,17 @@
+{
+  "name": "@packages/environment",
+  "version": "1.0.0",
+  "main": "dist/environment.js",
+  "types": "dist/environment.d.ts",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^3.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+  }
+}

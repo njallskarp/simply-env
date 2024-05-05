@@ -1,3 +1,5 @@
+[![CI](https://github.com/njallskarp/simply-env/actions/workflows/main.yml/badge.svg)](https://github.com/njallskarp/simply-env/actions/workflows/main.yml)
+
 # Simply-Env
 
 This is a zero-dependency package that helps parse and validate environments based on a configuration. Simply-env is unaware of how you get the environment variables. I.e. if you want to use an `.env` file, then you should use something like `dotenv` to parse the .env file. Simply-env assumes that it can read environment variables from `process.env`.

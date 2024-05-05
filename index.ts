@@ -9,6 +9,14 @@ interface EnvironmentVariableDescription {
 	description: string;
 }
 
+/**
+ * Represents the data structure for the table object.
+ */
+interface TableData {
+	Variable: string;
+	Value: string;
+	Description: string;
+}
 
 /**
  * Represents the configuration of environment variables.
@@ -24,7 +32,7 @@ type Environment<T extends EnvironmentConfig> = Record<keyof T, string>;
  */
 function validateEnvironmentVariables(config: EnvironmentConfig): boolean {
 	for (const key in config) {
-		if (config[key].isRequired && !process.env[key]) {
+		if (config[key]!.isRequired && !process.env[key]) {
 			console.error(`Missing required environment variable: ${key}`);
 			process.exit(1);
 		}
@@ -39,11 +47,11 @@ function validateEnvironmentVariables(config: EnvironmentConfig): boolean {
  * @param config - The configuration of environment variables.
  */
 function logEnvironmentVariables<T extends EnvironmentConfig>(config: EnvironmentConfig, environment: Environment<T>): void {
-	const data = [];
+	const data: TableData[] = [];
 	for (const key in config) {
 		const value = environment[key];
-		const description = config[key].description;
-		const isSecret = config[key].isSecret;
+		const description = config[key]!.description;
+		const isSecret = config[key]!.isSecret;
 		const displayValue = !value ? 'Missing from environment' 
 			: isSecret ? `***${value.slice(-4)}` 
 			: value;
@@ -72,20 +80,4 @@ export function read<T extends EnvironmentConfig>(input: T): Record<keyof T, str
 	logEnvironmentVariables(input, result as Environment<T>);
 
     return result as Environment<T>;
-}
-
-const config: EnvironmentConfig = {
-	API_PORT: {
-		description: "A number for the port the API will listen on",
-		isRequired: true,
-
-	},
-	PAYMENT_SERVICE_KEY: {
-		description: "A key from PaymentService used to authenticate requests",
-		isRequired: true,
-		isSecret: true,
-	},
-	LOG_LEVEL: {
-		description: "Specify log level as 'info', 'warn', or 'error'"
-	}
 }

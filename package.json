@@ -1,17 +1,21 @@
 {
-  "name": "@packages/environment",
-  "version": "1.0.0",
-  "main": "dist/environment.js",
-  "types": "dist/environment.d.ts",
+  "name": "simply-env",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "license": "MIT",
   "devDependencies": {
-    "nodemon": "^3.0.3",
-    "ts-node": "^10.9.2",
+    "@changesets/cli": "^2.27.1",
+    "tsup": "^8.0.2",
     "typescript": "^5.3.3"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsup index.ts --format cjs,esm --dts",
+    "lint": "tsc",
+    "release": "pnpm run build && changeset publish"
   },
-  "dependencies": {
+  "publishConfig": {
+    "access": "public"
   }
 }

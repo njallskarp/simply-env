@@ -1,14 +1,17 @@
-# Easy-Env
+# Simply-Env
 
-This is a zero-dependency package that helps parse and validate environments based on a configuration. 
+This is a zero-dependency package that helps parse and validate environments based on a configuration. Simply-env is unaware of how you get the environment variables. I.e. if you want to use an `.env` file, then you should use something like `dotenv` to parse the .env file. Simply-env assumes that it can read environment variables from `process.env`.
 
 Example configuration:
 
 ```ts
-import type { EnvironmentConfig } from "easy-env";
 import { read } from "easy-env";
+import dotenv from "dotenv";
 
-const config: EnvironmentConfig = {
+// if reading from an .env file
+dotenv.config();
+
+const env = read({
 	API_PORT: {
 		description: "A number for the port the API will listen on",
 		isRequired: true,
@@ -22,9 +25,8 @@ const config: EnvironmentConfig = {
 	LOG_LEVEL: {
 		description: "Specify log level as 'info', 'warn', or 'error'"
 	}
-}
+});
 
-const env = read(config);
 // this is now staticall typed
 env.PAYMENT_SERVICE_KEY;
 env.API_PORT;
@@ -33,7 +35,7 @@ env.LOG_LEVEL; // Value is empty string if non-required values are missin
 
 The `read` function takes in the config and returns a dictionary object which maps the enviroinment variables to their values. If a required environment variable is missing, then your node process will terminate with an error code.
 
-The `read` function logs out all your environment variables in a table along with their values. If an environment variable is set as `isSecret` it masks the value.
+The `read` function logs out all your environment variables in a table along with their values. If an environment variable is set as `isSecret` it masks the valgiue.
 
 ```shell
 ┌─────────┬───────────────────────┬────────────────────────────┬───────────────────────────────────────────────────────────┐

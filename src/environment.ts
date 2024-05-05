@@ -13,7 +13,7 @@ interface EnvironmentVariableDescription {
 /**
  * Represents the configuration of environment variables.
  */
-type EnvironmentConfig = Record<string, EnvironmentVariableDescription>;
+export type EnvironmentConfig = Record<string, EnvironmentVariableDescription>;
 type Environment<T extends EnvironmentConfig> = Record<keyof T, string>;
 
 /**
@@ -66,10 +66,26 @@ export function read<T extends EnvironmentConfig>(input: T): Record<keyof T, str
 
     const result: Partial<Environment<T>> = {};
     for (const key in input) {
-        result[key] = process.env[key];
+        result[key] = process.env[key] ?? '';
     }
 
 	logEnvironmentVariables(input, result as Environment<T>);
 
     return result as Environment<T>;
+}
+
+const config: EnvironmentConfig = {
+	API_PORT: {
+		description: "A number for the port the API will listen on",
+		isRequired: true,
+
+	},
+	PAYMENT_SERVICE_KEY: {
+		description: "A key from PaymentService used to authenticate requests",
+		isRequired: true,
+		isSecret: true,
+	},
+	LOG_LEVEL: {
+		description: "Specify log level as 'info', 'warn', or 'error'"
+	}
 }
